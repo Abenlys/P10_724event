@@ -4,7 +4,7 @@ import EventCard from "../../components/EventCard";
 import PeopleCard from "../../components/PeopleCard";
 
 import "./style.scss";
-import EventList from "../../containers/Events";
+import EventList from "../../containers/EventList";
 import Slider from "../../containers/Slider";
 import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
