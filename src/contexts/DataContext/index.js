@@ -12,8 +12,9 @@ const DataContext = createContext({});
 
 export const api = {
   loadData: async () => {
-    const json = await fetch("/events.json");
-    return json.json();
+    const response = await fetch("/events.json");
+    const dataFetch = await response.json();
+    return dataFetch;
   },
 };
 
