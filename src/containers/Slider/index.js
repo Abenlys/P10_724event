@@ -48,6 +48,7 @@ const Slider = () => {
                   type="radio"
                   name="radio-button"
                   checked={index === radioIdx}
+                  ReadOnly
                 />
               ))} */}
               <BulletSlider currentIndex={index} />

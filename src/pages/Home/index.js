@@ -1,3 +1,4 @@
+// import { useEffect, useState } from "react";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -14,7 +15,12 @@ import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const last = useData();
-  const lastEvent = last.data?.events;
+  const LastEvents = last.data?.events;
+  const lastEventByDate = LastEvents?.slice().sort((evtA, evtB) =>
+    new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+  )[0];
+
+
   return (
     <>
       <header>
@@ -122,11 +128,12 @@ const Page = () => {
         <div className="col presta">
           <h3>Notre derniére prestation</h3>
           <EventCard
-            imageSrc={lastEvent?.cover}
-            title={lastEvent?.title}
-            date={new Date(lastEvent?.date)}
+            imageSrc={lastEventByDate?.cover}
+            title={lastEventByDate?.title}
+            imageAlt={lastEventByDate?.description}
+            date={new Date(lastEventByDate?.date)}
             small
-            label="boom"
+            label={lastEventByDate?.type}
           />
         </div>
         <div className="col contact">
