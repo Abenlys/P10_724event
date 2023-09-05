@@ -8,6 +8,15 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
+  const [emailError, setEmailError] = useState("")
+  const validateEmail = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(email)) {
+      setEmailError("Veuillez entrer une adresse email valide")
+    } else {
+      setEmailError("")
+    }
+  }
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
@@ -37,7 +46,8 @@ const Form = ({ onSuccess, onError }) => {
             type="large"
             titleEmpty
           />
-          <Field placeholder="" label="Email" />
+          <Field placeholder="" label="Email" validate={validateEmail}/>
+          {emailError && <div className="error">{emailError}</div>}
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
@@ -47,6 +57,7 @@ const Form = ({ onSuccess, onError }) => {
             placeholder="message"
             label="Message"
             type={FIELD_TYPES.TEXTAREA}
+            
           />
         </div>
       </div>
