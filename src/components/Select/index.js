@@ -26,19 +26,19 @@ const Select = ({
       {label && <div className="label">{label}</div>}
       <div className="Select">
         <ul>
-          <li className={collapsed ? "SelectTitle--show" : "SelectTitle--hide"}>
+          <li className={collapsed ? "SelectTitle--hide" : "SelectTitle--show"}>
             {value || (!titleEmpty && "Toutes")}
           </li>
           {!collapsed && (
             <>
               {!titleEmpty && (
-                <li onClick={() => changeValue(null)}>
+                <li className={collapsed ? "close" : "open"} onClick={() => changeValue("toutes")}>
                   <input defaultChecked={!value} name="selected" type="radio" />{" "}
                   Toutes
                 </li>
               )}
               {selection.map((s) => (
-                <li key={s} onClick={() => changeValue(s)}>
+                <li key={s} className={collapsed ? "close" : "open"} onClick={() => changeValue(s)}>
                   <input
                     defaultChecked={value === s}
                     name="selected"
@@ -54,7 +54,7 @@ const Select = ({
         <button
           type="button"
           data-testid="collapse-button-testid"
-          className={collapsed ? "open" : "close"}
+          className={collapsed ? "close" : "open"}
           onClick={(e) => {
             e.preventDefault();
             setCollapsed(!collapsed);
