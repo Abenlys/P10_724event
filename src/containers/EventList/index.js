@@ -14,6 +14,15 @@ const EventList = () => {
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
 
+  // const calculatePageRange = () => {
+  //   const startIndex = (currentPage - 1) * PER_PAGE
+  //   const endIndex = startIndex + PER_PAGE
+  //   return {startIndex, endIndex}
+  // }
+  // const {startIndex, endIndex} = calculatePageRange()
+
+  // const filteredByType = !type ? data?.events : data?.events.filter(evt => evt.type === type)
+
   const filteredEvents = (
     (!type ? data?.events : data?.events.filter((evt) => evt.type === type)) ||
     []
@@ -30,8 +39,8 @@ const EventList = () => {
     setCurrentPage(1);
     setType(evtType);
   };
-
-  const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
+  const totalEvents = filteredEvents?.length
+  const pageNumber = Math.floor((totalEvents || 0) / PER_PAGE) + 1;
   const typeList = new Set(data?.events.map((event) => event.type));
   return (
     <>
@@ -61,7 +70,7 @@ const EventList = () => {
             ))}
           </div>
           <div className="Pagination">
-            {[...Array(pageNumber || 0)].map((_, n) => (
+            {[...Array(pageNumber || [])].map((_, n) => (
               // eslint-disable-next-line react/no-array-index-key
               <a key={n} href="#events" onClick={() => setCurrentPage(n + 1)}>
                 {n + 1}
