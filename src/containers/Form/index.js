@@ -12,6 +12,7 @@ const mockContactApi = () =>
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [textContent, setTextContent] = useState("")
   const [formData, setFormData] = useState({
     lastName: "",
     firstName: "",
@@ -19,6 +20,10 @@ const Form = ({ onSuccess, onError }) => {
     fieldEmail: "",
     comment: "",
   });
+
+  const resetTextForm = () => {
+    setTextContent("")
+  }
   const resetForm = () => {
     setFormData({
       lastName: "",
@@ -62,9 +67,8 @@ const Form = ({ onSuccess, onError }) => {
           <Field
             placeholder=""
             label="Nom"
-            value={formData.lastName}
-            onChange={(value) => setFormData({...formData, lastName: value})}
-          />
+            onChange={(value) => setTextContent(value)}
+          >{textContent}</Field>
           <Field
             placeholder=""
             label="Prénom"
@@ -87,7 +91,7 @@ const Form = ({ onSuccess, onError }) => {
             onChange={(value) => setFormData({...formData, fieldEmail: value})}
           />
           {emailError && <div className="error">{emailError}</div>}
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
+          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending} onClick={resetTextForm}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
