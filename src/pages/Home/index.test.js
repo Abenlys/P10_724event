@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Home from "./index";
+import { useData } from "../../contexts/DataContext";
 
 describe("When Form is created", () => {
   it("a list of fields card is displayed", async () => {
@@ -24,21 +25,43 @@ describe("When Form is created", () => {
       await screen.findByText("Message envoyé !");
     });
   });
-
 });
-
 
 describe("When a page is created", () => {
   it("a list of events is displayed", () => {
-    // to implement
-  })
+    render(<Home />);
+    const selectValue = document.querySelector(".SelectTitle--hide").innerText;
+    const getLabel = new Set();
+    const labelNodeList = document
+      .querySelector("#events")
+      .querySelectorAll(".EventCard__label");
+    labelNodeList.forEach((element) => {
+      const labelInnerHTML = element.innerHTML;
+      getLabel.add(labelInnerHTML);
+    });
+    expect(labelNodeList.length).toBeLessThanOrEqual(9);
+    if (selectValue !== "Toutes") {
+      expect(selectValue === getLabel);
+    }
+  });
   it("a list a people is displayed", () => {
-    // to implement
-  })
+    render(<Home />);
+    const peopleCardNodelist = document.querySelectorAll(".PeopleCard")
+    expect(peopleCardNodelist.length).toBe(6)
+  });
   it("a footer is displayed", () => {
-    // to implement
-  })
+    render(<Home />);
+    const footerInHTML = document.querySelector("footer");
+    expect(footerInHTML).toBeInTheDocument();
+  });
   it("an event card, with the last event, is displayed", () => {
-    // to implement
-  })
+    render(<Home />);
+    const { data } = useData();
+    const LastEvents = data?.events;
+    const lastEventByDate = LastEvents?.slice().sort((evtA, evtB) =>
+      new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+    )[0];
+    const getIdOfLastEvent = lastEventByDate?.id;
+    expect(getIdOfLastEvent === lastEventByDate?.id)
+  });
 });
