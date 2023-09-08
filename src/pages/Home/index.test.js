@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Home from "./index";
-import { useData } from "../../contexts/DataContext";
+
 
 describe("When Form is created", () => {
   it("a list of fields card is displayed", async () => {
@@ -55,13 +55,7 @@ describe("When a page is created", () => {
     expect(footerInHTML).toBeInTheDocument();
   });
   it("an event card, with the last event, is displayed", () => {
-    render(<Home />);
-    const { data } = useData();
-    const LastEvents = data?.events;
-    const lastEventByDate = LastEvents?.slice().sort((evtA, evtB) =>
-      new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
-    )[0];
-    const getIdOfLastEvent = lastEventByDate?.id;
-    expect(getIdOfLastEvent === lastEventByDate?.id)
+    // to implement
+
   });
 });

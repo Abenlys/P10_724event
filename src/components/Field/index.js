@@ -7,7 +7,15 @@ export const FIELD_TYPES = {
   TEXTAREA: 2,
 };
 
-const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, validate }) => {
+const Field = ({
+  type = FIELD_TYPES.INPUT_TEXT,
+  label,
+  name,
+  placeholder,
+  validate,
+  value,
+  onChange,
+}) => {
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -17,13 +25,24 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, valida
           name={name}
           placeholder={placeholder}
           data-testid="field-testid"
+          value={value}
           required
           onBlur={(e) => validate && validate(e.target.value)}
+          onChange={onChange}
         />
       );
       break;
     case FIELD_TYPES.TEXTAREA:
-      component = <textarea name={name} data-testid="field-testid" required minLength="10" />;
+      component = (
+        <textarea
+          name={name}
+          value={value}
+          onChange={onChange}
+          data-testid="field-testid"
+          required
+          minLength="10"
+        />
+      );
       break;
     default:
       component = (
@@ -49,13 +68,17 @@ Field.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   validate: PropTypes.func,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
- Field.defaultProps = {
-   label: "",
-   placeholder: "",
-   type: FIELD_TYPES.INPUT_TEXT,
-   name: "field-name",
-   validate: null,
- }
+Field.defaultProps = {
+  label: "",
+  placeholder: "",
+  type: FIELD_TYPES.INPUT_TEXT,
+  name: "field-name",
+  validate: null,
+  value: "",
+  onChange: null,
+};
 
 export default Field;

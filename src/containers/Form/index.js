@@ -12,7 +12,6 @@ const mockContactApi = () =>
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
   const [emailError, setEmailError] = useState("");
-  const [textContent, setTextContent] = useState("")
   const [formData, setFormData] = useState({
     lastName: "",
     firstName: "",
@@ -21,9 +20,6 @@ const Form = ({ onSuccess, onError }) => {
     comment: "",
   });
 
-  const resetTextForm = () => {
-    setTextContent("")
-  }
   const resetForm = () => {
     setFormData({
       lastName: "",
@@ -60,38 +56,50 @@ const Form = ({ onSuccess, onError }) => {
     [onSuccess, onError]
   );
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name] : e.target.value,
+    })
+    
+  }
+
   return (
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
           <Field
             placeholder=""
+            name="lastName"
             label="Nom"
-            onChange={(value) => setTextContent(value)}
-          >{textContent}</Field>
+            onChange={handleChange}
+            value={formData.lastName}
+          />
           <Field
             placeholder=""
             label="Prénom"
+            name="firstName"
             value={formData.firstName}
-            onChange={(value) => setFormData({...formData, firstName: value})}
+            onChange={handleChange}
           />
           <Select
             selection={["Personel", "Entreprise"]}
-            onChange={(value) => setFormData({...formData, choice: value})}
+            name="choice"
             label="Personel / Entreprise"
             type="large"
             titleEmpty
-            value={formData.choice}
+            // value={[formData.choice]}
           />
           <Field
             placeholder=""
             label="Email"
+            name="fieldEmail"
             validate={validateEmail}
             value={formData.fieldEmail}
-            onChange={(value) => setFormData({...formData, fieldEmail: value})}
+            onChange={handleChange}
           />
           {emailError && <div className="error">{emailError}</div>}
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending} onClick={resetTextForm}>
+          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
@@ -99,9 +107,11 @@ const Form = ({ onSuccess, onError }) => {
           <Field
             placeholder="message"
             label="Message"
+            name="comment"
             type={FIELD_TYPES.TEXTAREA}
             value={formData.comment}
-            onChange={resetForm}
+            onChange={handleChange}
+            
           />
         </div>
       </div>
